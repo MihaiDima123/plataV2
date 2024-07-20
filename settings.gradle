@@ -1,0 +1,3 @@
+rootProject.name = "Plata"
+
+include("app:backend", "app:frontend")
