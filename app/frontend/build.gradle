@@ -1,1 +1,37 @@
+plugins {
+    id 'base'
+}
+
 dependencies {}
+
+// Dev
+tasks.register('runDev', Exec) {
+    description = "Run dev mode"
+    commandLine 'npm.cmd', 'run', 'dev'
+}
+
+tasks.register('serve', Exec) {
+    description = "Serve build"
+    dependsOn 'buildFrontend'
+    commandLine 'npm.cmd', 'run', 'preview'
+}
+
+// Prod
+tasks.register('npmInstall', Exec) {
+    description = "Install npm dependencies"
+    commandLine 'npm.cmd', 'install'
+}
+
+tasks.register('buildFrontend', Exec) {
+    description = "Build frontend app"
+    dependsOn 'npmInstall'
+    commandLine 'npm.cmd', 'run', 'build'
+}
+
+tasks.register('clearFrontend', Exec) {
+    description = "Removes build folder"
+    delete fileTree('dist')
+}
+
+clean.dependsOn('clearFrontend')
+assemble.dependsOn('buildFrontend')
