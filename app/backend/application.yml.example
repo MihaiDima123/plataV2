@@ -1,0 +1,6 @@
+app:
+  datasource:
+    jdbc-url: jdbc:postgresql://localhost:5555/plata
+    user: postgres
+    password: postgres
+    driver-classname: org.postgresql.Driver
