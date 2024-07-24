@@ -1,9 +1,12 @@
 package com.plata.Plata.configuration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -12,15 +15,23 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityWebFilterChain(HttpSecurity http) throws Exception {
         var builder = http.authorizeHttpRequests(authorization -> {
             authorization
-                    .requestMatchers("/public/**")
-                    .permitAll();
+                    .anyRequest()
+                    .authenticated();
         })
-        .oauth2ResourceServer((oauth2) -> oauth2.jwt(withDefaults()))
-        .cors(AbstractHttpConfigurer::disable);
+        .oauth2Login(withDefaults())
+        .oauth2ResourceServer(customizer -> customizer.jwt(withDefaults()))
+        .cors(AbstractHttpConfigurer::disable)
+        .csrf(AbstractHttpConfigurer::disable);
 
         return builder.build();
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withJwkSetUri("https://www.googleapis.com/oauth2/v3/certs").build();
     }
 }

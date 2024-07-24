@@ -28,7 +28,9 @@ const SocialLoginForm = () => {
                     onClick={loginHandler}
                     backgroundColor={'transparent'}
                 >
-                    <Image src={googleIcon} />
+                    <a href={'http://localhost:8080/oauth2/authorization/google'}>
+                        <Image src={googleIcon} />
+                    </a>
                 </PlataButton>
             </Flex>
         </Flex>
