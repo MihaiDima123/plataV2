@@ -6,3 +6,6 @@ CREATE TABLE "user" (
     created_at timestamp default current_timestamp,
     avatar_url varchar(512) default null
 );
+
+create unique index UK_user_username on "user" (username);
+create unique index UK_user_email on "user" (email);

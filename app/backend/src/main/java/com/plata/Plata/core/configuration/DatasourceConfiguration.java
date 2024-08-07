@@ -1,4 +1,4 @@
-package com.plata.Plata.configuration;
+package com.plata.Plata.core.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
