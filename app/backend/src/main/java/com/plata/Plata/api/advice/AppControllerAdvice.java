@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class AppControllerAdvice {
@@ -37,6 +38,14 @@ public class AppControllerAdvice {
 
             dto.setMessage(argumentNotValidException.getBody().getDetail());
             return ResponseEntity.badRequest().body(dto);
+        }
+
+        if (e instanceof NoResourceFoundException noResourceFoundException) {
+            var detailMessage = noResourceFoundException.getBody().getDetail();
+            LOGGER.warn("[Status {}]  {}", HttpStatus.NOT_FOUND, detailMessage);
+            dto.setMessage(noResourceFoundException.getBody().getDetail());
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
         }
 
         LOGGER.error("[Status {}]", HttpStatus.INTERNAL_SERVER_ERROR, e);
