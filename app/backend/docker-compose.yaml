@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    restart: always
+    ports:
+      - "5555:5432"
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=plata
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres

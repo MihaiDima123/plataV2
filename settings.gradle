@@ -1,1 +1,3 @@
-rootProject.name = 'Plata'
+rootProject.name = "Plata"
+
+include("app:backend", "app:frontend")
