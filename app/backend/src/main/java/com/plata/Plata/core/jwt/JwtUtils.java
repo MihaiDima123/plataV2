@@ -1,8 +1,9 @@
 package com.plata.Plata.core.jwt;
 
+import com.plata.Plata.core.exception.ForbiddenException;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 
 import javax.crypto.SecretKey;
@@ -31,23 +32,22 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String getSubject(String token) {
-        return Jwts
-                .parser()
-                .decryptWith(signingKey)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
-    }
-
-    public void validateToken(String token) {
+    public Claims validateToken(String token) throws ForbiddenException {
         try {
-            Jwts.parser()
+            var tokenData = Jwts.parser()
                     .verifyWith(signingKey)
-                    .build();
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+
+            if (tokenData.getExpiration().before(new Date())) {
+                throw new ForbiddenException();
+            }
+
+            return tokenData;
         } catch (Exception e) {
-            throw new AuthenticationCredentialsNotFoundException("JWT token not found");
+            System.out.println(e.getMessage());
+            throw new ForbiddenException();
         }
     }
 
