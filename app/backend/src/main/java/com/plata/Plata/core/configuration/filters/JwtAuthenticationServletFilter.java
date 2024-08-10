@@ -1,6 +1,7 @@
 package com.plata.Plata.core.configuration.filters;
 
 import com.plata.Plata.core.jwt.JwtUtils;
+import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,8 +25,8 @@ public class JwtAuthenticationServletFilter extends OncePerRequestFilter {
     @Override
     @SneakyThrows
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) {
+                                    @Nonnull HttpServletResponse response,
+                                    @Nonnull FilterChain filterChain) {
         var authenticationHeader = request.getHeader("Authorization");
 
         String username = null;
