@@ -1,8 +1,9 @@
 import Landing from "../pages/Landing.tsx";
 
+export const LANDING_ROUTE = '/';
 const guardedRoutes =  [
     {
-        path: '/',
+        path: LANDING_ROUTE,
         element: <Landing />
     }
 ]
