@@ -1,16 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import Login from "../pages/Login.tsx";
-import Landing from "../pages/Landing.tsx";
+import publicRoutes from "./public-routes.tsx";
+import guardedRoutes from "./guarded-routes.tsx";
+import {guardRoute} from "./utils";
 
 const router = createBrowserRouter([
-    {
-        path: "/login",
-        element: <Login />,
-    },
-    {
-        path: '/',
-        element: <Landing />
-    }
+    ...publicRoutes,
+    ...(guardRoute(guardedRoutes)),
 ]);
 
 

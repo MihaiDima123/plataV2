@@ -1,12 +1,14 @@
 package com.plata.Plata.api;
 
+import com.plata.Plata.core.cookie.HttpOnlyAuthCookie;
 import com.plata.Plata.core.dto.BaseApiResponseDTO;
 import com.plata.Plata.core.exception.TranslatedException;
 import com.plata.Plata.user.dto.UserDTO;
-import com.plata.Plata.user.dto.auth.AuthUserResponse;
 import com.plata.Plata.user.dto.auth.AuthenticateUserDTO;
 import com.plata.Plata.user.dto.auth.RegisterUserDTO;
 import com.plata.Plata.user.services.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/auth")
 public class AuthController {
     private final UserService userService;
+    private final com.plata.Plata.core.cookie.Cookie httpOnlyAuthCookie;
 
     public AuthController(UserService userService) {
         this.userService = userService;
+        httpOnlyAuthCookie = new HttpOnlyAuthCookie();
     }
 
     @PostMapping("register")
@@ -35,14 +39,19 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<BaseApiResponseDTO<AuthUserResponse>> login(@Valid @RequestBody AuthenticateUserDTO authenticateUserDTO) throws TranslatedException {
+    public ResponseEntity<BaseApiResponseDTO<?>> login(
+            @Valid @RequestBody AuthenticateUserDTO authenticateUserDTO,
+            HttpServletResponse servletResponse
+    ) throws TranslatedException {
         var authResponse = userService.authenticateUser(authenticateUserDTO);
 
-        var response = new BaseApiResponseDTO<AuthUserResponse>();
-        response.setMessage("Authentication successful");
-        response.setData(authResponse);
+        servletResponse.addCookie(getHttpOnlyAuthCookie(authResponse.getToken()));
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok().body(null);
+    }
+
+    private Cookie getHttpOnlyAuthCookie(String token) {
+        return httpOnlyAuthCookie.createNewCookie(token);
     }
 
 }

@@ -1,6 +1,6 @@
 import PageLayout from "../lib/layout/PageLayout.tsx";
-import SocialLoginForm from "../components/social-login-form/SocialLoginForm.tsx";
 import PlataBox from "../lib/box/PlataBox.tsx";
+import LoginForm from "../components/login-form/LoginForm.tsx";
 
 const Login = () => {
     return (
@@ -13,7 +13,7 @@ const Login = () => {
                 width={500}
                 maxHeight={'100vh'}
             >
-                <SocialLoginForm />
+                <LoginForm />
             </PlataBox>
         </PageLayout>
     )

@@ -1,0 +1,1 @@
+export { default as guardRoute } from './guard-route.tsx'
