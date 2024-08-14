@@ -8,7 +8,12 @@ class AuthService {
 
     static login(loginRequest: AuthRequest, handlers: BaseHandlers<any>) {
         BaseService.handleApiResponse(
-            api.post(this.LOGIN_PATH, loginRequest),
+            api({
+                method: 'post',
+                url: this.LOGIN_PATH,
+                data: loginRequest,
+                withCredentials: true
+            }),
             handlers
         )
     }
