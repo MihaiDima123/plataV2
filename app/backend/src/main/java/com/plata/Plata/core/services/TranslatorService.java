@@ -17,8 +17,6 @@ public class TranslatorService implements MessageTranslator {
     }
 
     public String translate(String text, String[] args) {
-        System.out.println(text);
-        System.out.println(LocaleContextHolder.getLocale().getLanguage());
         return messageSource.getMessage(
                 text,
                 args,
