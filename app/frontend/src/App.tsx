@@ -1,5 +1,5 @@
-import MyChakraProvider from "./providers/ChakraProvider.tsx";
-import router from "./routes/route.tsx";
+import MyChakraProvider from "providers/ChakraProvider";
+import router from "routes/route.tsx";
 import {RouterProvider} from "react-router-dom";
 import './index.css'
 

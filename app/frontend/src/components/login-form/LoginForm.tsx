@@ -1,9 +1,9 @@
 import {Flex, FormLabel, Input} from "@chakra-ui/react";
 import { useForm, SubmitHandler } from "react-hook-form"
-import PlataButton from "../../lib/button/PlataButton.tsx";
-import AuthService from "../../api/user/AuthService.ts";
+import PlataButton from "lib/button/PlataButton.tsx";
+import AuthService from "api/user/AuthService.ts";
 import {useNavigate} from "react-router-dom";
-import {LANDING_ROUTE} from "../../routes/guarded-routes.tsx";
+import {LANDING_ROUTE} from "routes/guarded-routes.tsx";
 
 type LoginFormInputs = {
     username: string
@@ -13,7 +13,10 @@ type LoginFormInputs = {
 const LoginForm = () => {
     const navigate = useNavigate()
 
-    const { handleSubmit, register} = useForm<LoginFormInputs>();
+    const {
+        handleSubmit,
+        register
+    } = useForm<LoginFormInputs>();
 
     const onSubmit: SubmitHandler<LoginFormInputs> = ({ username, password }) => {
         AuthService.login(

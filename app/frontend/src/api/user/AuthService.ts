@@ -1,6 +1,6 @@
-import {AuthRequest} from "./types/auth-types.ts";
-import api from "../api.ts";
-import BaseService, {BaseHandlers} from "../BaseService.ts";
+import api from "api/index.ts";
+import {AuthRequest} from "api/user/types/auth-types.ts";
+import BaseService, {BaseHandlers} from "api/BaseService.ts";
 
 class AuthService {
     private static BASE_PATH: string = 'auth'

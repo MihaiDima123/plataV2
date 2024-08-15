@@ -1,5 +1,5 @@
-import {createContext, ReactNode} from "react";
-import {User} from "../types/entity/user-types.ts";
+import {createContext, ReactNode, useEffect} from "react";
+import {User} from "types/entity/user-types.ts";
 
 type AuthContextType = {
     user?: User | null
@@ -16,6 +16,11 @@ const AuthContextDefaultValue: AuthContextType = {
 }
 
 const AuthContextProvider = (props: AuthContextProps) => {
+
+    useEffect(() => {
+
+    }, [])
+
     return (
         <AuthContext.Provider value={AuthContextDefaultValue}>
             {props.children}

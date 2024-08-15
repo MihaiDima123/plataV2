@@ -1,4 +1,4 @@
-import PageLayout from "../lib/layout/PageLayout.tsx";
+import PageLayout from "lib/layout/PageLayout.tsx";
 
 const Landing = () => {
 

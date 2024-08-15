@@ -5,8 +5,6 @@ type PageLayoutProps = {
 }
 
 const PageLayout = (props: PageLayoutProps) => {
-
-
     return (
         <Flex
             height={'100vh'}

@@ -1,4 +1,4 @@
-import Landing from "../pages/Landing.tsx";
+import Landing from "pages/Landing.tsx";
 
 export const LANDING_ROUTE = '/';
 const guardedRoutes =  [

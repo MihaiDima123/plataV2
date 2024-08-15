@@ -1,6 +1,6 @@
-import PageLayout from "../lib/layout/PageLayout.tsx";
-import PlataBox from "../lib/box/PlataBox.tsx";
-import LoginForm from "../components/login-form/LoginForm.tsx";
+import PageLayout from "lib/layout/PageLayout.tsx";
+import PlataBox from "lib/box/PlataBox.tsx";
+import LoginForm from "components/login-form/LoginForm.tsx";
 
 const Login = () => {
     return (
