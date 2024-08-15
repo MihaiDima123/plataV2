@@ -1,9 +1,12 @@
 package com.plata.Plata.api;
 
+import com.plata.Plata.api.base.BaseApiController;
+import com.plata.Plata.core.configuration.provider.ApiBuilderProvider;
 import com.plata.Plata.core.cookie.HttpOnlyAuthCookie;
 import com.plata.Plata.core.dto.BaseApiResponseDTO;
 import com.plata.Plata.core.enums.AuthenticationType;
 import com.plata.Plata.core.exception.TranslatedException;
+import com.plata.Plata.core.messages.ApiMessages;
 import com.plata.Plata.user.dto.UserDTO;
 import com.plata.Plata.user.dto.auth.AuthenticateUserDTO;
 import com.plata.Plata.user.dto.auth.RegisterUserDTO;
@@ -19,11 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/auth")
-public class AuthController {
+public class AuthController extends BaseApiController {
     private final UserService userService;
     private final com.plata.Plata.core.cookie.Cookie httpOnlyAuthCookie;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService,
+                          ApiBuilderProvider translatedMessageBuilderProvider) {
+        super(translatedMessageBuilderProvider);
         this.userService = userService;
         httpOnlyAuthCookie = new HttpOnlyAuthCookie();
     }
@@ -33,8 +38,8 @@ public class AuthController {
         var user = userService.registerUser(registerUserDTO);
 
         return ResponseEntity.ok(
-                BaseApiResponseDTO.<UserDTO>builder()
-                        .message("User registered successfully")
+                apiBuilderProvider.<UserDTO>builder()
+                        .message(ApiMessages.USER_REGISTERED_SUCCESSFULLY.value())
                         .data(UserDTO.from(user))
                         .build()
         );

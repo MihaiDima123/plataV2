@@ -4,6 +4,7 @@ import com.plata.Plata.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 @Getter
 @Setter
@@ -12,12 +13,14 @@ public class UserDTO {
     private Integer id;
     private String username;
     private String email;
+    private String locale;
 
     public static UserDTO from(User user) {
         return UserDTO.builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
+                .locale(LocaleContextHolder.getLocale().getLanguage())
                 .build();
     }
 }

@@ -1,6 +1,7 @@
 package com.plata.Plata.core.jwt;
 
 import com.plata.Plata.core.exception.ForbiddenException;
+import com.plata.Plata.core.messages.Errors;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -46,8 +47,7 @@ public class JwtUtils {
 
             return tokenData;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            throw new ForbiddenException();
+            throw new ForbiddenException(Errors.JWT_DECODE_ISSUE.value());
         }
     }
 

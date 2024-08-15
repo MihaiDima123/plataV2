@@ -6,6 +6,7 @@ import com.plata.Plata.core.exception.ForbiddenException;
 import com.plata.Plata.core.exception.NotFoundException;
 import com.plata.Plata.core.exception.TranslatedException;
 import com.plata.Plata.core.jwt.JwtUtils;
+import com.plata.Plata.core.messages.Errors;
 import com.plata.Plata.user.dto.auth.AuthUserResponse;
 import com.plata.Plata.user.dto.auth.AuthenticateUserDTO;
 import com.plata.Plata.user.dto.auth.RegisterUserDTO;
@@ -37,7 +38,7 @@ public class UserService {
     public User registerUser(RegisterUserDTO registerUserDTO) throws TranslatedException {
         if (userRepository.countByEmail(registerUserDTO.getEmail()) > 0
                 || userRepository.countByUsername(registerUserDTO.getUsername()) > 0) {
-            throw new BadRequestException("User already exists");
+            throw new BadRequestException(Errors.USER_ALREADY_EXISTS.value());
         }
 
         final var user = registerUserDTO.toUserEntity(passwordEncoder);
@@ -47,7 +48,7 @@ public class UserService {
 
     public AuthUserResponse authenticateUser(AuthenticateUserDTO authenticateUserDTO) throws TranslatedException {
         var user = userRepository.findByUsername(authenticateUserDTO.getUsername())
-                .orElseThrow(() -> new NotFoundException("User not found"));
+                .orElseThrow(() -> new NotFoundException(Errors.USER_NOT_FOUND.value()));
 
         if (!passwordEncoder.matches(authenticateUserDTO.getPassword(), user.getPassword())) {
             throw new ForbiddenException();
