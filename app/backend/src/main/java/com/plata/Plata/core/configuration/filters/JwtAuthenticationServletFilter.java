@@ -3,6 +3,8 @@ package com.plata.Plata.core.configuration.filters;
 import com.plata.Plata.core.cookie.HttpOnlyAuthCookie;
 import com.plata.Plata.core.exception.ForbiddenException;
 import com.plata.Plata.core.jwt.JwtUtils;
+import com.plata.Plata.core.threadcontext.UserContext;
+import com.plata.Plata.user.repository.UserRepository;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.Cookie;
@@ -20,10 +22,13 @@ import java.util.Collections;
 public class JwtAuthenticationServletFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
     private final com.plata.Plata.core.cookie.Cookie httpOnlyAuthCookie;
+    private final UserRepository userRepository;
 
-    public JwtAuthenticationServletFilter(JwtUtils jwtUtils) {
+    public JwtAuthenticationServletFilter(JwtUtils jwtUtils,
+                                          UserRepository userRepository) {
         super();
         this.jwtUtils = jwtUtils;
+        this.userRepository = userRepository;
         this.httpOnlyAuthCookie = new HttpOnlyAuthCookie();
     }
 
@@ -45,15 +50,19 @@ public class JwtAuthenticationServletFilter extends OncePerRequestFilter {
 
         String username = null;
 
-        if (authenticationCookie.startsWith("Bearer ")) {
-            var jwtToken = authenticationCookie.substring(7);
-            var tokenData = jwtUtils.validateToken(jwtToken);
+        if (authenticationCookie != null && !authenticationCookie.isEmpty()) {
 
-            username = tokenData.getSubject();
+            username = jwtUtils.validateAndGetToken(authenticationCookie).getSubject();
         }
 
         if (username != null) {
             var authentication = new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
+
+            UserContext.set(userRepository.findByUsername(authentication.getName())
+                    .orElseThrow(()->
+                            new ForbiddenException(String.format("User %s not found", authentication.getName()))
+                    ));
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
     }

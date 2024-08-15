@@ -32,7 +32,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    public Claims validateToken(String token) throws ForbiddenException {
+    public Claims validateAndGetToken(String token) throws ForbiddenException {
         try {
             var tokenData = Jwts.parser()
                     .verifyWith(signingKey)

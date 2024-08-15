@@ -63,7 +63,7 @@ public class UserService {
 
         return AuthUserResponse.builder()
                 .token(token)
-                .type(AuthenticationType.BEARER)
+                .type(AuthenticationType.COOKIE)
                 .build();
     }
 }

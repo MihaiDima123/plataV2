@@ -7,4 +7,9 @@ public class ForbiddenException extends TranslatedException {
         super("");
         this.status = HttpStatus.FORBIDDEN;
     }
+
+    public ForbiddenException(String message) {
+        super(message);
+        this.status = HttpStatus.FORBIDDEN;
+    }
 }

@@ -19,38 +19,39 @@ public class AppControllerAdvice {
     public ResponseEntity<BaseApiResponseDTO<Object>> handleCheckedErrors(TranslatedException e) {
         LOGGER.warn("[Status {}] - {}", e.getStatus().value(), e.getMessage());
 
-        var dto = new BaseApiResponseDTO<>();
-        dto.setMessage(e.getMessage());
+        var responseBody = BaseApiResponseDTO.builder()
+                .message(e.getMessage())
+                .build();
 
         return ResponseEntity
                 .status(e.getStatus())
-                .body(dto);
+                .body(responseBody);
     }
 
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<BaseApiResponseDTO<Object>> handleUnchecked(Throwable e) {
-        var dto = new BaseApiResponseDTO<>();
+        var builder = BaseApiResponseDTO.builder();
 
         if (e instanceof MethodArgumentNotValidException argumentNotValidException) {
             var detailMessage = argumentNotValidException.getBody().getDetail();
 
             LOGGER.warn("[Status {}]  {}", HttpStatus.BAD_REQUEST, detailMessage);
 
-            dto.setMessage(argumentNotValidException.getBody().getDetail());
-            return ResponseEntity.badRequest().body(dto);
+            builder.message(argumentNotValidException.getBody().getDetail());
+            return ResponseEntity.badRequest().body(builder.build());
         }
 
         if (e instanceof NoResourceFoundException noResourceFoundException) {
             var detailMessage = noResourceFoundException.getBody().getDetail();
             LOGGER.warn("[Status {}]  {}", HttpStatus.NOT_FOUND, detailMessage);
-            dto.setMessage(noResourceFoundException.getBody().getDetail());
+            builder.message(noResourceFoundException.getBody().getDetail());
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(builder.build());
         }
 
         LOGGER.error("[Status {}]", HttpStatus.INTERNAL_SERVER_ERROR, e);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(dto);
+                .body(builder.build());
     }
 }

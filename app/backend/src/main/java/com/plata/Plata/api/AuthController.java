@@ -2,6 +2,7 @@ package com.plata.Plata.api;
 
 import com.plata.Plata.core.cookie.HttpOnlyAuthCookie;
 import com.plata.Plata.core.dto.BaseApiResponseDTO;
+import com.plata.Plata.core.enums.AuthenticationType;
 import com.plata.Plata.core.exception.TranslatedException;
 import com.plata.Plata.user.dto.UserDTO;
 import com.plata.Plata.user.dto.auth.AuthenticateUserDTO;
@@ -31,11 +32,12 @@ public class AuthController {
     public ResponseEntity<BaseApiResponseDTO<UserDTO>> register(@Valid @RequestBody RegisterUserDTO registerUserDTO) throws TranslatedException {
         var user = userService.registerUser(registerUserDTO);
 
-        var response = new BaseApiResponseDTO<UserDTO>();
-        response.setMessage("User registered successfully");
-        response.setData(UserDTO.from(user));
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(
+                BaseApiResponseDTO.<UserDTO>builder()
+                        .message("User registered successfully")
+                        .data(UserDTO.from(user))
+                        .build()
+        );
     }
 
     @PostMapping("login")
@@ -45,7 +47,9 @@ public class AuthController {
     ) throws TranslatedException {
         var authResponse = userService.authenticateUser(authenticateUserDTO);
 
-        servletResponse.addCookie(getHttpOnlyAuthCookie(authResponse.getToken()));
+        if (authResponse.getType()!= null && authResponse.getType().equals(AuthenticationType.COOKIE)) {
+            servletResponse.addCookie(getHttpOnlyAuthCookie(authResponse.getToken()));
+        }
 
         return ResponseEntity.ok().body(null);
     }
