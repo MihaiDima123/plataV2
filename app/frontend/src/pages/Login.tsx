@@ -9,7 +9,6 @@ const Login = () => {
                 display="flex"
                 alignItems={'flex-start'}
                 justifyContent={'center'}
-                height={400}
                 width={500}
                 maxHeight={'100vh'}
             >

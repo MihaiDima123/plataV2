@@ -1,34 +1,50 @@
+import {useContext} from "react";
 import {Flex, FormLabel, Input} from "@chakra-ui/react";
-import { useForm, SubmitHandler } from "react-hook-form"
+import {useForm, SubmitHandler, UseFormReturn} from "react-hook-form"
 import PlataButton from "lib/button/PlataButton.tsx";
 import AuthService from "api/user/AuthService.ts";
 import {useNavigate} from "react-router-dom";
 import {LANDING_ROUTE} from "routes/guarded-routes.tsx";
-import {useContext} from "react";
 import {AuthContext} from "providers/AuthContextProvider.tsx";
+import { useToast } from '@chakra-ui/react'
+import {isEmpty} from 'lodash'
 
 type LoginFormInputs = {
     username: string
     password: string
 }
 
+const resetFields = (formContext: UseFormReturn<LoginFormInputs, null, any>) => {
+    formContext.setValue('username', '')
+    formContext.setValue('password', '')
+}
+
 const LoginForm = () => {
     const navigate = useNavigate()
     const {getUserData} = useContext(AuthContext)
 
-    const {
-        handleSubmit,
-        register
-    } = useForm<LoginFormInputs>();
+    const toast = useToast()
+
+    const formContext = useForm<LoginFormInputs>()
 
     const onSubmit: SubmitHandler<LoginFormInputs> = ({ username, password }) => {
+        if (isEmpty(username) || isEmpty(password)) {
+            return
+        }
+
         AuthService.login(
             { username, password },
             {
                 onSuccess: () => {
                     getUserData(() => navigate(LANDING_ROUTE))
                 },
-                onError: (error) => console.log("Something went horribly wrong", error)
+                onError: (error) => {
+                    resetFields(formContext)
+                    toast({
+                        title: error.response?.data.message,
+                        status: 'error'
+                    })
+                }
             }
         )
     }
@@ -37,16 +53,27 @@ const LoginForm = () => {
         <Flex
             alignItems="center"
             justifyContent="center"
+            direction={'column'}
+            width={'100%'}
         >
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <Flex direction={'column'} width={'100%'}>
                 <FormLabel>Username</FormLabel>
-                <Input {...register('username')} />
+                <Input {...formContext.register('username')} />
+            </Flex>
+            <Flex direction={'column'} width={'100%'}>
                 <FormLabel>Password</FormLabel>
-                <Input {...register('password')} type={'password'} />
-                <PlataButton type="submit">
-                    Login
-                </PlataButton>
-            </form>
+                <Input
+                    {...formContext.register('password')}
+                    type={'password'}
+                />
+            </Flex>
+            <PlataButton
+                width={'100%'}
+                mt={10}
+                onClick={formContext.handleSubmit(onSubmit)}
+            >
+                Login
+            </PlataButton>
         </Flex>
     )
 }

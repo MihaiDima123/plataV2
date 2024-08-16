@@ -2,7 +2,7 @@ import {AxiosError, AxiosPromise} from "axios";
 
 export interface BaseHandlers<T> {
     onSuccess?: (data: T) => any,
-    onError?: (error: AxiosError) => void
+    onError?: (error: AxiosError<{message: string}>) => void
     onFinally?: () => void
 }
 
