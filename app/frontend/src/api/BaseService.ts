@@ -1,8 +1,8 @@
-import {AxiosPromise} from "axios";
+import {AxiosError, AxiosPromise} from "axios";
 
 export interface BaseHandlers<T> {
     onSuccess?: (data: T) => any,
-    onError?: (error: string) => void
+    onError?: (error: AxiosError) => void
     onFinally?: () => void
 }
 
@@ -10,7 +10,7 @@ class BaseService {
     static handleApiResponse<T>(apiPromise: AxiosPromise, baseHandlers: BaseHandlers<T>) {
         apiPromise
             .then(({data}) => baseHandlers.onSuccess && baseHandlers.onSuccess(data.data || data.message))
-            .catch(e => baseHandlers.onError && baseHandlers.onError(e.message))
+            .catch(e => baseHandlers.onError && baseHandlers.onError(e))
             .finally(() => baseHandlers.onFinally && baseHandlers.onFinally())
     }
 }

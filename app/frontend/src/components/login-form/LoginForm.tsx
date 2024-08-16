@@ -4,6 +4,8 @@ import PlataButton from "lib/button/PlataButton.tsx";
 import AuthService from "api/user/AuthService.ts";
 import {useNavigate} from "react-router-dom";
 import {LANDING_ROUTE} from "routes/guarded-routes.tsx";
+import {useContext} from "react";
+import {AuthContext} from "providers/AuthContextProvider.tsx";
 
 type LoginFormInputs = {
     username: string
@@ -12,6 +14,7 @@ type LoginFormInputs = {
 
 const LoginForm = () => {
     const navigate = useNavigate()
+    const {getUserData} = useContext(AuthContext)
 
     const {
         handleSubmit,
@@ -22,7 +25,9 @@ const LoginForm = () => {
         AuthService.login(
             { username, password },
             {
-                onSuccess: () => navigate(LANDING_ROUTE),
+                onSuccess: () => {
+                    getUserData(() => navigate(LANDING_ROUTE))
+                },
                 onError: (error) => console.log("Something went horribly wrong", error)
             }
         )
@@ -37,7 +42,7 @@ const LoginForm = () => {
                 <FormLabel>Username</FormLabel>
                 <Input {...register('username')} />
                 <FormLabel>Password</FormLabel>
-                <Input {...register('password')} />
+                <Input {...register('password')} type={'password'} />
                 <PlataButton type="submit">
                     Login
                 </PlataButton>

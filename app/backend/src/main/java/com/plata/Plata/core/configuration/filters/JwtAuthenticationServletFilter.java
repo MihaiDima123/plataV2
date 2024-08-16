@@ -61,7 +61,6 @@ public class JwtAuthenticationServletFilter extends OncePerRequestFilter {
         String username = null;
 
         if (authenticationCookie != null && !authenticationCookie.isEmpty()) {
-
             username = jwtUtils.validateAndGetToken(authenticationCookie).getSubject();
         }
 
