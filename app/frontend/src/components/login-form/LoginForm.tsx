@@ -8,6 +8,9 @@ import {LANDING_ROUTE} from "routes/guarded-routes.tsx";
 import {AuthContext} from "providers/AuthContextProvider.tsx";
 import { useToast } from '@chakra-ui/react'
 import {isEmpty} from 'lodash'
+import {useMutation} from "@tanstack/react-query";
+import {AuthRequest} from "api/user/types/auth-types.ts";
+import {AxiosError} from "axios";
 
 type LoginFormInputs = {
     username: string
@@ -27,26 +30,24 @@ const LoginForm = () => {
 
     const formContext = useForm<LoginFormInputs>()
 
+    const loginHandle = useMutation({
+        mutationFn: (request: AuthRequest) => AuthService.login(request),
+        onSuccess: () => getUserData(() => navigate(LANDING_ROUTE)),
+        onError: (error: AxiosError<any>) => {
+            resetFields(formContext)
+            toast({
+                title: error.response?.data.message,
+                status: 'error'
+            })
+        }
+    })
+
     const onSubmit: SubmitHandler<LoginFormInputs> = ({ username, password }) => {
         if (isEmpty(username) || isEmpty(password)) {
             return
         }
 
-        AuthService.login(
-            { username, password },
-            {
-                onSuccess: () => {
-                    getUserData(() => navigate(LANDING_ROUTE))
-                },
-                onError: (error) => {
-                    resetFields(formContext)
-                    toast({
-                        title: error.response?.data.message,
-                        status: 'error'
-                    })
-                }
-            }
-        )
+        loginHandle.mutate({ username, password })
     }
     
     return (

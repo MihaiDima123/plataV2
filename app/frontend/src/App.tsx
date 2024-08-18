@@ -1,17 +1,20 @@
 import MyChakraProvider from "providers/ChakraProvider";
 import router from "routes/route.tsx";
 import {RouterProvider} from "react-router-dom";
-import './index.css'
 import AuthContextProvider from "providers/AuthContextProvider.tsx";
+import ReactQueryProvider from "providers/ReactQueryProvider.tsx";
+import './index.css'
 
 function App() {
   return (
     <MyChakraProvider>
-        <AuthContextProvider>
-            <RouterProvider
-                router={router}
-            />
-        </AuthContextProvider>
+        <ReactQueryProvider>
+            <AuthContextProvider>
+                <RouterProvider
+                    router={router}
+                />
+            </AuthContextProvider>
+        </ReactQueryProvider>
     </MyChakraProvider>
   )
 }

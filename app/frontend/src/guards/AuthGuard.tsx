@@ -10,15 +10,18 @@ type AuthGuardProps = {
 
 const AuthGuard = (props: AuthGuardProps) => {
     const navigate = useNavigate();
-    const {userLoggedIn} = useContext(AuthContext)
+    const {
+        userLoggedIn,
+        userLoginLoading
+    } = useContext(AuthContext)
 
     useEffect(() => {
-        if (userLoggedIn === false) {
+        if (!userLoggedIn && !userLoginLoading) {
             navigate(LOGIN_ROUTE)
         }
-    }, [userLoggedIn])
+    }, [userLoggedIn, userLoginLoading])
 
-    if (userLoggedIn == null) {
+    if (userLoginLoading) {
         return <LoadingOverlay />
     }
 

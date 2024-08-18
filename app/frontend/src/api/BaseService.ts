@@ -1,17 +1,10 @@
-import {AxiosError, AxiosPromise} from "axios";
-
-export interface BaseHandlers<T> {
-    onSuccess?: (data: T) => any,
-    onError?: (error: AxiosError<{message: string}>) => void
-    onFinally?: () => void
-}
+import {AxiosPromise} from "axios";
 
 class BaseService {
-    static handleApiResponse<T>(apiPromise: AxiosPromise, baseHandlers: BaseHandlers<T>) {
-        apiPromise
-            .then(({data}) => baseHandlers.onSuccess && baseHandlers.onSuccess(data.data || data.message))
-            .catch(e => baseHandlers.onError && baseHandlers.onError(e))
-            .finally(() => baseHandlers.onFinally && baseHandlers.onFinally())
+    static async handleApiResponse<T>(apiPromise: AxiosPromise): Promise<T | string> {
+        const {data: { data, message }} = await apiPromise;
+
+        return data || message;
     }
 }
 
