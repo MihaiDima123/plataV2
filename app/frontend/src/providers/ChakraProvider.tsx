@@ -1,5 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import { extendTheme } from "@chakra-ui/react";
+import {SpinnerProps}  from "@chakra-ui/react";
 
 const colors = {
     primary: {
@@ -28,26 +29,40 @@ const colors = {
     },
 };
 
-const customTheme = extendTheme({
-    colors,
-    fonts: {
-        heading: "Georgia, serif",
-        body: "Arial, sans-serif",
-    },
-    styles: {
-        global: {
-            "html, body": {
-                backgroundColor: "gray.100",
-                color: "gray.800",
-            },
-            a: {
-                color: "primary.500",
-                _hover: {
-                    textDecoration: "underline",
-                },
+const fonts = {
+    heading: "Georgia, serif",
+    body: "Arial, sans-serif",
+};
+
+const styles = {
+    global: {
+        "html, body": {
+            backgroundColor: "gray.100",
+            color: "gray.800",
+        },
+        a: {
+            color: "primary.500",
+            _hover: {
+                textDecoration: "underline",
             },
         },
     },
+};
+const spinnerBaseStyle: SpinnerProps = {
+    color: "primary.500",
+    size: 'xl',
+    thickness: '10px'
+};
+
+const customTheme = extendTheme({
+    colors,
+    fonts,
+    styles,
+    components: {
+        Spinner: {
+            baseStyle: spinnerBaseStyle,
+        }
+    }
 });
 
 type MyChakraProviderProps = {
