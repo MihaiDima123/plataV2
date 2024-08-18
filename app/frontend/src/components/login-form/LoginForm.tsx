@@ -11,6 +11,7 @@ import {isEmpty} from 'lodash'
 import {useMutation} from "@tanstack/react-query";
 import {AuthRequest} from "api/user/types/auth-types.ts";
 import {AxiosError} from "axios";
+import {useTranslation} from "react-i18next";
 
 type LoginFormInputs = {
     username: string
@@ -23,6 +24,8 @@ const resetFields = (formContext: UseFormReturn<LoginFormInputs, null, any>) => 
 }
 
 const LoginForm = () => {
+    const {t} = useTranslation()
+
     const navigate = useNavigate()
     const {getUserData} = useContext(AuthContext)
 
@@ -74,7 +77,7 @@ const LoginForm = () => {
                 onClick={formContext.handleSubmit(onSubmit)}
                 isDisabled={loginHandle.isPending}
             >
-                Login
+                {t('form.actions.login')}
             </PlataButton>
         </Flex>
     )

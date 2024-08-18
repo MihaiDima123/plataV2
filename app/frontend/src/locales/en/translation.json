@@ -1,3 +1,7 @@
 {
-  "key": "Test 123"
+  "form": {
+    "actions": {
+      "login": "Login"
+    }
+  }
 }
