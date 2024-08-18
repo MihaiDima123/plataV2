@@ -72,6 +72,7 @@ const LoginForm = () => {
                 width={'100%'}
                 mt={10}
                 onClick={formContext.handleSubmit(onSubmit)}
+                isDisabled={loginHandle.isPending}
             >
                 Login
             </PlataButton>

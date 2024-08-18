@@ -25,7 +25,6 @@ type AuthContextProps = {
 }
 
 const AuthContextProvider = (props: AuthContextProps) => {
-
     const { data, refetch, isSuccess, isLoading } = useQuery({
         queryKey: ['selfUser'],
         queryFn: () => UserService.getSelfUser(),
