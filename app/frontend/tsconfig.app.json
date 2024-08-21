@@ -25,15 +25,15 @@
 
     /* Paths */
     "paths": {
-      "types/*": ["src/types/*"],
-      "api/*": ["src/api/*"],
-      "assets/*": ["src/assets/*"],
-      "components/*": ["src/components/*"],
-      "guards/*": ["src/guards/*"],
-      "lib/*": ["src/lib/*"],
-      "pages/*": ["src/pages/*"],
-      "providers/*": ["src/providers/*"],
-      "routes/*": ["src/routes/*"]
+      "types/*": ["./src/types/*"],
+      "api/*": ["./src/api/*"],
+      "assets/*": ["./src/assets/*"],
+      "components/*": ["./src/components/*"],
+      "guards/*": ["./src/guards/*"],
+      "lib/*": ["./src/lib/*"],
+      "pages/*": ["./src/pages/*"],
+      "providers/*": ["./src/providers/*"],
+      "routes/*": ["./src/routes/*"]
     }
   },
   "include": ["src"]
