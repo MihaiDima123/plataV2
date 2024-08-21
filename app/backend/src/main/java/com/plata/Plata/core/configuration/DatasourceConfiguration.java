@@ -19,16 +19,16 @@ public class DatasourceConfiguration {
     @Value("${app.datasource.max-pool-size}")
     private int MAX_CONNECTION_POOL_SIZE;
 
-    @Value("${spring.datasource.user}")
+    @Value("${spring.datasource.username}")
     private String USERNAME;
 
     @Value("${spring.datasource.password}")
     private String  PASSWORD;
 
-    @Value("${spring.datasource.jdbc-url}")
+    @Value("${spring.datasource.url}")
     private String URL;
 
-    @Value("${spring.datasource.driver-classname}")
+    @Value("${spring.datasource.driver-class-name}")
     private String DRIVER_CLASSNAME;
 
     @Bean

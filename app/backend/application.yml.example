@@ -1,9 +1,9 @@
 spring:
   datasource:
-    jdbc-url: jdbc:postgresql://localhost:5555/plata
-    user: postgres
+    url: jdbc:postgresql://localhost:5555/plata
+    username: postgres
     password: postgres
-    driver-classname: org.postgresql.Driver
+    driver-class-name: org.postgresql.Driver
 app:
   security:
     jwt-secret: your-secret
