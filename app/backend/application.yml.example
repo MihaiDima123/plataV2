@@ -1,30 +1,10 @@
 spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            clientId:
-            clientSecret:
-            scope:
-              - openid
-              - profile
-              - email
-            redirectUri: "{baseUrl}/login/oauth2/code/google"
-        provider:
-          google:
-            authorizationUri: https://accounts.google.com/o/oauth2/auth
-            tokenUri: https://oauth2.googleapis.com/token
-            userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
-            userNameAttribute: sub
-        resourceserver:
-          jwt:
-            issuer-uri: https://accounts.google.com
-            jwt-set-uri: https://www.googleapis.com/oauth2/v3/certs
-
-app:
   datasource:
     jdbc-url: jdbc:postgresql://localhost:5555/plata
     user: postgres
     password: postgres
     driver-classname: org.postgresql.Driver
+app:
+  security:
+    jwt-secret: your-secret
+    token-expiry: 7200000

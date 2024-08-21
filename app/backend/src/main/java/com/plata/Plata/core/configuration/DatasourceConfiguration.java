@@ -10,9 +10,6 @@ import javax.sql.DataSource;
 
 @Configuration
 public class DatasourceConfiguration {
-    @Value("${app.datasource.driver-classname}")
-    private String DRIVER_CLASSNAME;
-
     @Value("${app.datasource.min-idle}")
     private int MIN_IDLE_CONNECTIONS;
 
@@ -22,14 +19,17 @@ public class DatasourceConfiguration {
     @Value("${app.datasource.max-pool-size}")
     private int MAX_CONNECTION_POOL_SIZE;
 
-    @Value("${app.datasource.user}")
+    @Value("${spring.datasource.user}")
     private String USERNAME;
 
-    @Value("${app.datasource.password}")
+    @Value("${spring.datasource.password}")
     private String  PASSWORD;
 
-    @Value("${app.datasource.jdbc-url}")
+    @Value("${spring.datasource.jdbc-url}")
     private String URL;
+
+    @Value("${spring.datasource.driver-classname}")
+    private String DRIVER_CLASSNAME;
 
     @Bean
     @FlywayDataSource
