@@ -53,22 +53,14 @@ const LoginForm = () => {
     }
     
     return (
-        <Flex
-            alignItems="center"
-            justifyContent="center"
-            direction={'column'}
-            width={'100%'}
-        >
+        <Flex alignItems="center" justifyContent="center" direction={'column'} width={'100%'}>
             <Flex direction={'column'} width={'100%'}>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>{t('form.login.username')}</FormLabel>
                 <Input {...formContext.register('username')} />
             </Flex>
             <Flex direction={'column'} width={'100%'}>
-                <FormLabel>Password</FormLabel>
-                <Input
-                    {...formContext.register('password')}
-                    type={'password'}
-                />
+                <FormLabel>{t('form.login.password')}</FormLabel>
+                <Input {...formContext.register('password')} type={'password'} />
             </Flex>
             <Button
                 variant={'plata'}
