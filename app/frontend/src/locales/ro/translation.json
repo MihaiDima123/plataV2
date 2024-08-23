@@ -2,6 +2,10 @@
   "form": {
     "actions": {
       "login": "Autentificare"
+    },
+    "labels": {
+      "username": "Utilizator",
+      "password": "Parolă"
     }
   }
 }

@@ -1,4 +1,4 @@
-import MyChakraProvider from "providers/ChakraProvider";
+import MyChakraProvider from "providers/chakra-provider/ChakraProvider.tsx";
 import router from "routes/route.tsx";
 import {RouterProvider} from "react-router-dom";
 import AuthContextProvider from "providers/AuthContextProvider.tsx";

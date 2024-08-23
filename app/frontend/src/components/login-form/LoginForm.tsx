@@ -1,7 +1,6 @@
 import {useContext} from "react";
-import {Flex, FormLabel, Input} from "@chakra-ui/react";
+import {Button, Flex, FormLabel, Input} from "@chakra-ui/react";
 import {useForm, SubmitHandler, UseFormReturn} from "react-hook-form"
-import PlataButton from "lib/button/PlataButton.tsx";
 import AuthService from "api/user/AuthService.ts";
 import {useNavigate} from "react-router-dom";
 import {LANDING_ROUTE} from "routes/guarded-routes.tsx";
@@ -71,14 +70,15 @@ const LoginForm = () => {
                     type={'password'}
                 />
             </Flex>
-            <PlataButton
+            <Button
+                variant={'plata'}
                 width={'100%'}
                 mt={10}
                 onClick={formContext.handleSubmit(onSubmit)}
                 isDisabled={loginHandle.isPending}
             >
                 {t('form.actions.login')}
-            </PlataButton>
+            </Button>
         </Flex>
     )
 }

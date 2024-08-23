@@ -2,6 +2,10 @@
   "form": {
     "actions": {
       "login": "Login"
+    },
+    "labels": {
+      "username": "Username",
+      "password": "Password"
     }
   }
 }
