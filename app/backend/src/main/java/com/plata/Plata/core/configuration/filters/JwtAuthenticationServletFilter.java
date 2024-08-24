@@ -5,6 +5,7 @@ import com.plata.Plata.core.exception.ForbiddenException;
 import com.plata.Plata.core.jwt.JwtUtils;
 import com.plata.Plata.core.threadcontext.UserContext;
 import com.plata.Plata.user.repository.UserRepository;
+import com.plata.Plata.user.services.PermissionService;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,12 +15,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 
 @Component
 public class JwtAuthenticationServletFilter extends OncePerRequestFilter {
@@ -28,12 +30,15 @@ public class JwtAuthenticationServletFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
     private final com.plata.Plata.core.cookie.Cookie httpOnlyAuthCookie;
     private final UserRepository userRepository;
+    private final PermissionService permissionService;
 
     public JwtAuthenticationServletFilter(JwtUtils jwtUtils,
-                                          UserRepository userRepository) {
+                                          UserRepository userRepository,
+                                          PermissionService permissionService) {
         super();
         this.jwtUtils = jwtUtils;
         this.userRepository = userRepository;
+        this.permissionService = permissionService;
         this.httpOnlyAuthCookie = new HttpOnlyAuthCookie();
     }
 
@@ -65,12 +70,22 @@ public class JwtAuthenticationServletFilter extends OncePerRequestFilter {
         }
 
         if (username != null) {
-            var authentication = new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
+            var errorMessage = String.format("User %s not found", username);
+            var user = userRepository.findByUsername(username).orElseThrow(()-> new ForbiddenException(errorMessage));
 
-            UserContext.set(userRepository.findByUsername(authentication.getName())
-                    .orElseThrow(()->
-                            new ForbiddenException(String.format("User %s not found", authentication.getName()))
-                    ));
+            var userGroups = userRepository.getUserGroups(user);
+
+            var authorities = new ArrayList<SimpleGrantedAuthority>();
+
+            userGroups.forEach(group ->
+                permissionService.getPermissionGroupPermissions(group).forEach(permission ->
+                        authorities.add(new SimpleGrantedAuthority(permission.getName()))
+                )
+            );
+
+            var authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+
+            UserContext.set(user);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
