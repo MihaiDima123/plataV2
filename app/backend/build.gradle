@@ -29,7 +29,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+
+	implementation 'javax.cache:cache-api:1.1.1'
+	implementation 'org.ehcache:ehcache:3.10.8'
+
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 	implementation 'org.flywaydb:flyway-core'
