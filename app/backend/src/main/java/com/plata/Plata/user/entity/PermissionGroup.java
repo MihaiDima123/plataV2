@@ -8,32 +8,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "\"user\"")
-public class User {
+public class PermissionGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String username;
-    private String password;
-    private String email;
-    private LocalDateTime createdAt;
-    private String avatarUrl;
+    private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            joinColumns = { @JoinColumn(name = "user_id")},
-            inverseJoinColumns = { @JoinColumn(name = "permission_group_id") },
-            name = "user_group"
+            joinColumns = { @JoinColumn(name = "permission_group_id") },
+            inverseJoinColumns = { @JoinColumn(name = "permission_id") },
+            name = "permission_group_permissions"
     )
-    private Set<PermissionGroup> userGroups;
+    private Set<Permissions> permissionGroupPermissions = new HashSet<>();
 }
