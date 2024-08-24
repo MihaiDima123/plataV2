@@ -10,6 +10,6 @@ import java.util.Set;
 public interface PermissionGroupRepository extends CrudRepository<PermissionGroup, Integer> {
     @Query("select pg.permissionGroupPermissions " +
             "from PermissionGroup pg " +
-            "where pg = :permissionGroup")
-    Set<Permissions> getPermissionGroupPermissions(PermissionGroup permissionGroup);
+            "where pg.id = :permissionGroupId")
+    Set<Permissions> getPermissionGroupPermissions(Integer permissionGroupId);
 }

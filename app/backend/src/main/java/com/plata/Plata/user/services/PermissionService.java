@@ -1,11 +1,13 @@
 package com.plata.Plata.user.services;
 
-import com.plata.Plata.user.entity.PermissionGroup;
-import com.plata.Plata.user.entity.Permissions;
+import com.plata.Plata.core.configuration.cache.impl.PermissionGroupCacheProvider;
+import com.plata.Plata.user.dto.auth.PermissionDTO;
 import com.plata.Plata.user.repository.PermissionGroupRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PermissionService {
@@ -15,8 +17,10 @@ public class PermissionService {
         this.permissionGroupRepository = permissionGroupRepository;
     }
 
-    // TODO: Cache that
-    public Set<Permissions> getPermissionGroupPermissions(PermissionGroup permissionGroup) {
-        return permissionGroupRepository.getPermissionGroupPermissions(permissionGroup);
+    @Cacheable(cacheNames = {PermissionGroupCacheProvider.CACHE_NAME})
+    public Set<PermissionDTO> getPermissionGroupPermissionsByPermissionGroupId(Integer permissionGroupId) {
+        return permissionGroupRepository.getPermissionGroupPermissions(permissionGroupId)
+                .stream().map(PermissionDTO::from)
+                .collect(Collectors.toSet());
     }
 }

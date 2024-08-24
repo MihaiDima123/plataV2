@@ -78,7 +78,7 @@ public class JwtAuthenticationServletFilter extends OncePerRequestFilter {
             var authorities = new ArrayList<SimpleGrantedAuthority>();
 
             userGroups.forEach(group ->
-                permissionService.getPermissionGroupPermissions(group).forEach(permission ->
+                permissionService.getPermissionGroupPermissionsByPermissionGroupId(group.getId()).forEach(permission ->
                         authorities.add(new SimpleGrantedAuthority(permission.getName()))
                 )
             );

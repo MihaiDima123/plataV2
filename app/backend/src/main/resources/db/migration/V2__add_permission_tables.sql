@@ -24,10 +24,12 @@ CREATE TABLE permissions(
 
 CREATE TABLE permission_group_permissions(
 	permission_group_id int not null REFERENCES permission_group(id) ON DELETE CASCADE,
-	permission_id int not null REFERENCES permission_group(id) ON DELETE CASCADE
+	permission_id int not null REFERENCES permission_group(id) ON DELETE CASCADE,
+    primary key (permission_group_id, permission_id)
 );
 
 create table user_group(
 	user_id int not null references "user"(id) on delete cascade,
-	permission_group_id int not null references permission_group(id) on delete cascade
+	permission_group_id int not null references permission_group(id) on delete cascade,
+    primary key (user_id, permission_group_id)
 );
