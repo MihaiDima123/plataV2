@@ -8,7 +8,7 @@ import baseFonts from "providers/chakra-provider/fonts/base-fonts.ts";
 const customTheme = extendTheme({
     colors: baseColors,
     fonts: baseFonts,
-    styles: { global: baseGlobalStyle },
+    styles: { global: baseGlobalStyle.global },
     components
 });
 
