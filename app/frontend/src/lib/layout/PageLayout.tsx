@@ -1,10 +1,6 @@
-import {Flex} from "@chakra-ui/react";
+import {Flex, FlexProps} from "@chakra-ui/react";
 
-type PageLayoutProps = {
-    children?: any
-}
-
-const PageLayout = (props: PageLayoutProps) => {
+const PageLayout = (props: FlexProps) => {
     return (
         <Flex
             height={'100vh'}

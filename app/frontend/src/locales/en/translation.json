@@ -1,4 +1,11 @@
 {
+  "labels": {
+    "navigation": {
+      "navigation-list": {
+        "home": "Home"
+      }
+    }
+  },
   "form": {
     "actions": {
       "login": "Login"

@@ -1,10 +1,18 @@
+import {RouteObject} from "react-router-dom";
 import Landing from "pages/Landing.tsx";
+import FullLayout from "lib/layout/FullLayout.tsx";
 
 export const LANDING_ROUTE = '/';
-const guardedRoutes =  [
+const guardedRoutes: RouteObject[] =  [
     {
-        path: LANDING_ROUTE,
-        element: <Landing />
+        path: '/',
+        element: <FullLayout />,
+        children: [
+            {
+                path: LANDING_ROUTE,
+                element: <Landing />
+            }
+        ]
     }
 ]
 

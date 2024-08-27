@@ -1,4 +1,11 @@
 {
+  "labels": {
+    "navigation": {
+      "navigation-list": {
+        "home": "Acasă"
+      }
+    }
+  },
   "form": {
     "actions": {
       "login": "Autentificare"
