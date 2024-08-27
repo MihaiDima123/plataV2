@@ -11,7 +11,9 @@ const FullLayout = () => {
             justifyContent={'flex-start'}
         >
             <MainSidebar>
-                <Outlet />
+                <main>
+                    <Outlet />
+                </main>
             </MainSidebar>
         </Flex>
     )
