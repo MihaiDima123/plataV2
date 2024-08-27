@@ -7,5 +7,10 @@
       "username": "Username",
       "password": "Password"
     }
+  },
+  "errors": {
+    "login-form": {
+      "unauthenticated": "Username or password incorrect"
+    }
   }
 }

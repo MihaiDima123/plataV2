@@ -36,7 +36,16 @@ const LoginForm = () => {
         mutationFn: (request: AuthRequest) => AuthService.login(request),
         onSuccess: () => getUserData(() => navigate(LANDING_ROUTE)),
         onError: (error: AxiosError<any>) => {
+            console.log("error:", error);
             resetFields(formContext)
+
+            if (error.response?.status === 403) {
+                return toast({
+                    title: t('errors.login-form.unauthenticated'),
+                    status: 'error'
+                })
+            }
+
             toast({
                 title: error.response?.data.message,
                 status: 'error'

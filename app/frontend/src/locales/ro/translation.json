@@ -7,5 +7,10 @@
       "username": "Utilizator",
       "password": "Parolă"
     }
+  },
+  "errors": {
+    "login-form": {
+      "unauthenticated": "Nume de utilizator sau parolă incorecte"
+    }
   }
 }
