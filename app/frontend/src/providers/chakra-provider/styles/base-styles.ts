@@ -14,7 +14,9 @@ const baseGlobalStyle = {
             height: "100vh",
         },
         main: {
-          padding: '3',
+            padding: '3',
+            width: '100%',
+            height: '100%'
         },
         a: {
             color: "primary.500",
