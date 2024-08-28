@@ -7,15 +7,7 @@ const SidebarContent = () => {
     const {t} = useTranslation()
 
     return (
-        <Box
-            bg="gray.900"
-            color="white"
-            borderRight="1px"
-            borderRightColor="gray.700"
-            w={{ base: "full", md: 60 }}
-            pos="fixed"
-            h="full"
-        >
+        <Box color="gray.900" h="full">
             <VStack align="start" mt={5} spacing={5} ml={5}>
                 {navigationItems.map((navItem) => (
                     <NavItem

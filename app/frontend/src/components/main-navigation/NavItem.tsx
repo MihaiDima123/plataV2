@@ -21,13 +21,16 @@ type NavItemProps = {
                 borderRadius="lg"
                 role="group"
                 cursor="pointer"
-                _hover={{
-                    bg: 'gray.700',
-                    color: 'white',
-                }}
+                fontWeight={700}
             >
                 {props.icon && (
-                    <Box mr="4" fontSize="16" as={props.icon} />
+                    <Box
+                        color={'gray.900'}
+                        mr="4"
+                        fontWeight={700}
+                        fontSize="16"
+                        as={props.icon}
+                    />
                 )}
                 {props.children}
             </Flex>
