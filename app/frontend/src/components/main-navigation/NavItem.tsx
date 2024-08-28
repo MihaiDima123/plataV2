@@ -16,7 +16,8 @@ type NavItemProps = {
         >
             <Flex
                 align="center"
-                p="4"
+                p={2}
+                pt={4}
                 mx="4"
                 role="group"
                 cursor="pointer"

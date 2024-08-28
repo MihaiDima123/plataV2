@@ -8,7 +8,7 @@ const SidebarContent = () => {
 
     return (
         <Box color="gray.900" h="full" width={300}>
-            <VStack align="start" spacing={5} ml={5}>
+            <VStack align="start" ml={5}>
                 {navigationItems.map((navItem) => (
                     <NavItem
                         key={navItem.key}

@@ -2,7 +2,8 @@
   "labels": {
     "navigation": {
       "navigation-list": {
-        "home": "Home"
+        "home": "Home",
+        "create-guild": "Create Guild"
       }
     }
   },

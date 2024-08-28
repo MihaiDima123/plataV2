@@ -2,7 +2,8 @@
   "labels": {
     "navigation": {
       "navigation-list": {
-        "home": "Acasă"
+        "home": "Acasă",
+        "create-guild": "Creează Guild"
       }
     }
   },

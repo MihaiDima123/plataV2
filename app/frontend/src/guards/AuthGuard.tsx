@@ -5,7 +5,8 @@ import {useNavigate} from "react-router-dom";
 import LoadingOverlay from "pages/custom/LoadingOverlay.tsx";
 
 type AuthGuardProps = {
-    children: any
+    children: any,
+    permission?: string
 }
 
 const AuthGuard = (props: AuthGuardProps) => {

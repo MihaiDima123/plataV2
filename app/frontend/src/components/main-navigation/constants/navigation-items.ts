@@ -23,7 +23,7 @@ const navigationItems: NavItemType[] = [
     },
     {
         key: 'create-guild',
-        link: '/',
+        link: '/guild/create',
         icon: FaUsers,
         label: 'labels.navigation.navigation-list.create-guild',
         position: 'bottom',
