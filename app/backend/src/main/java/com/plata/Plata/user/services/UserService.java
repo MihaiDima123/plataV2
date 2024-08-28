@@ -7,6 +7,8 @@ import com.plata.Plata.core.exception.NotFoundException;
 import com.plata.Plata.core.exception.TranslatedException;
 import com.plata.Plata.core.jwt.JwtUtils;
 import com.plata.Plata.core.messages.Errors;
+import com.plata.Plata.core.threadcontext.UserContext;
+import com.plata.Plata.user.dto.UserDTO;
 import com.plata.Plata.user.dto.auth.AuthUserResponse;
 import com.plata.Plata.user.dto.auth.AuthenticateUserDTO;
 import com.plata.Plata.user.dto.auth.RegisterUserDTO;
@@ -17,19 +19,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
+    private final PermissionService permissionService;
 
     public UserService(UserRepository userRepository,
                        PasswordEncoder passwordEncoder,
-                       JwtUtils jwtUtils) {
+                       JwtUtils jwtUtils,
+                       PermissionService permissionService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
+        this.permissionService = permissionService;
     }
 
     /**
@@ -66,5 +73,25 @@ public class UserService {
                 .token(token)
                 .type(AuthenticationType.COOKIE)
                 .build();
+    }
+
+    public UserDTO getSelfUserDto() throws ForbiddenException {
+        var user = UserContext.get();
+
+        var userDto = UserDTO.from(UserContext.get());
+        userDto.setPermissions(getUserPermissions(user));
+
+        return userDto;
+    }
+
+    public Set<String> getUserPermissions(User user) {
+        var permissions = new HashSet<String>();
+        var userGroups = userRepository.getUserGroups(user);
+
+        userGroups
+                .forEach(group -> permissionService.getPermissionGroupPermissionsByPermissionGroupId(group.getId())
+                .forEach(permissionDto -> permissions.add(permissionDto.getName())));
+
+        return permissions;
     }
 }

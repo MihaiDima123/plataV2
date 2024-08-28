@@ -3,6 +3,7 @@ import {AuthContext} from "providers/AuthContextProvider.tsx";
 import {LOGIN_ROUTE} from "routes/public-routes.tsx";
 import {useNavigate} from "react-router-dom";
 import LoadingOverlay from "pages/custom/LoadingOverlay.tsx";
+import NotFound from "pages/NotFound.tsx";
 
 type AuthGuardProps = {
     children: any,
@@ -13,7 +14,8 @@ const AuthGuard = (props: AuthGuardProps) => {
     const navigate = useNavigate();
     const {
         userLoggedIn,
-        userLoginLoading
+        userLoginLoading,
+        user
     } = useContext(AuthContext)
 
     useEffect(() => {
@@ -24,6 +26,12 @@ const AuthGuard = (props: AuthGuardProps) => {
 
     if (userLoginLoading) {
         return <LoadingOverlay />
+    }
+
+    if (props.permission && !user?.permissions?.includes(props.permission)) {
+        return (
+            <NotFound />
+        )
     }
 
     return props.children
