@@ -12,9 +12,10 @@ const FullLayout = () => {
             maxWidth={'100vw'}
             alignItems={'flex-start'}
             justifyContent={'center'}
+            pt={10}
         >
             <SidebarContent />
-            <main style={{ width: '100%' }}>
+            <main>
                 <Outlet/>
             </main>
         </Flex>

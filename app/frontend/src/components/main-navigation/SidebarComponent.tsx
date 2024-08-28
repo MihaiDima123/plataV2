@@ -7,8 +7,8 @@ const SidebarContent = () => {
     const {t} = useTranslation()
 
     return (
-        <Box color="gray.900" h="full">
-            <VStack align="start" mt={5} spacing={5} ml={5}>
+        <Box color="gray.900" h="full" width={300}>
+            <VStack align="start" spacing={5} ml={5}>
                 {navigationItems.map((navItem) => (
                     <NavItem
                         key={navItem.key}

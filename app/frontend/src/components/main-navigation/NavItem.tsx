@@ -18,7 +18,6 @@ type NavItemProps = {
                 align="center"
                 p="4"
                 mx="4"
-                borderRadius="lg"
                 role="group"
                 cursor="pointer"
                 fontWeight={700}
@@ -28,7 +27,6 @@ type NavItemProps = {
                         color={'gray.900'}
                         mr="4"
                         fontWeight={700}
-                        fontSize="16"
                         as={props.icon}
                     />
                 )}
