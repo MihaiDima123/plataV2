@@ -1,5 +1,6 @@
 import {Box, Flex, Link} from "@chakra-ui/react";
 import React, {JSXElementConstructor} from "react";
+import {useNavigate} from "react-router-dom";
 
 type NavItemProps = {
     icon?:  JSXElementConstructor<any>
@@ -8,9 +9,14 @@ type NavItemProps = {
 }
 
  const NavItem = (props: NavItemProps) => {
+    const navigate = useNavigate()
     return (
         <Link
             href={props.link}
+            onClick={(e) => {
+                e.preventDefault()
+                props.link && navigate(props.link)
+            }}
             style={{ textDecoration: 'none' }}
             _focus={{ boxShadow: 'none' }}
         >
