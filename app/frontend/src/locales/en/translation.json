@@ -9,11 +9,14 @@
   },
   "form": {
     "actions": {
-      "login": "Login"
+      "login": "Login",
+      "create": "Create"
     },
     "labels": {
       "username": "Username",
-      "password": "Password"
+      "password": "Password",
+      "name": "Name",
+      "description": "Description"
     }
   },
   "errors": {

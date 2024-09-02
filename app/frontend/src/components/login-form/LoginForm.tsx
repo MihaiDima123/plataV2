@@ -1,5 +1,5 @@
 import {useContext} from "react";
-import {Button, Flex, FormLabel, Input} from "@chakra-ui/react";
+import {FlexProps} from "@chakra-ui/react";
 import {useForm, SubmitHandler, UseFormReturn} from "react-hook-form"
 import AuthService from "api/user/AuthService.ts";
 import {useNavigate} from "react-router-dom";
@@ -11,6 +11,9 @@ import {useMutation} from "@tanstack/react-query";
 import {AuthRequest} from "api/user/types/auth-types.ts";
 import {AxiosError} from "axios";
 import {useTranslation} from "react-i18next";
+import FormInput from "lib/form-component/FormInput.tsx";
+import FormComponent from "lib/form-component/FormComponent.tsx";
+import PlataButton from "components/button/PlataButton.tsx";
 
 type LoginFormInputs = {
     username: string
@@ -21,6 +24,13 @@ const resetFields = (formContext: UseFormReturn<LoginFormInputs, null, any>) => 
     formContext.setValue('username', '')
     formContext.setValue('password', '')
 }
+
+const wrapperProps: FlexProps = {
+    alignItems: 'center',
+    justifyContent: 'center',
+    direction: 'column',
+    width: '100%'
+};
 
 const LoginForm = () => {
     const {t} = useTranslation()
@@ -36,7 +46,6 @@ const LoginForm = () => {
         mutationFn: (request: AuthRequest) => AuthService.login(request),
         onSuccess: () => getUserData(() => navigate(LANDING_ROUTE)),
         onError: (error: AxiosError<any>) => {
-            console.log("error:", error);
             resetFields(formContext)
 
             if (error.response?.status === 403) {
@@ -60,27 +69,24 @@ const LoginForm = () => {
 
         loginHandle.mutate({ username, password })
     }
-    
+
     return (
-        <Flex alignItems="center" justifyContent="center" direction={'column'} width={'100%'}>
-            <Flex direction={'column'} width={'100%'}>
-                <FormLabel>{t('form.labels.username')}</FormLabel>
-                <Input {...formContext.register('username')} />
-            </Flex>
-            <Flex direction={'column'} width={'100%'}>
-                <FormLabel>{t('form.labels.password')}</FormLabel>
-                <Input {...formContext.register('password')} type={'password'} />
-            </Flex>
-            <Button
-                variant={'plata'}
-                width={'100%'}
-                mt={10}
+        <FormComponent formContext={formContext} wrapperProps={wrapperProps} >
+            <FormInput
+                name={'username'}
+                label={t('form.labels.username')}
+            />
+            <FormInput
+                label={t('form.labels.password')}
+                name={'password'}
+            />
+            <PlataButton
                 onClick={formContext.handleSubmit(onSubmit)}
                 isDisabled={loginHandle.isPending}
             >
                 {t('form.actions.login')}
-            </Button>
-        </Flex>
+            </PlataButton>
+        </FormComponent>
     )
 }
 

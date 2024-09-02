@@ -9,11 +9,14 @@
   },
   "form": {
     "actions": {
-      "login": "Autentificare"
+      "login": "Autentificare",
+      "create": "Creează"
     },
     "labels": {
       "username": "Utilizator",
-      "password": "Parolă"
+      "password": "Parolă",
+      "name": "Nume",
+      "description": "Descriere"
     }
   },
   "errors": {
