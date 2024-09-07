@@ -8,10 +8,8 @@ import lombok.Setter;
 @Setter
 public class AuthenticateUserDTO {
     @NotBlank
-    @SuppressWarnings("unused")
     private String username;
 
     @NotBlank
-    @SuppressWarnings("unused")
     private String password;
 }

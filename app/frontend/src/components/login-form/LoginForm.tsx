@@ -79,6 +79,7 @@ const LoginForm = () => {
             <FormInput
                 label={t('form.labels.password')}
                 name={'password'}
+                type={'password'}
             />
             <PlataButton
                 onClick={formContext.handleSubmit(onSubmit)}
