@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Objects;
-
 @Getter
 @Setter
 @Builder
@@ -19,8 +17,6 @@ public class GuildDTO {
     private String description;
 
     public static GuildDTO from(@Nonnull Guild guild) {
-        Objects.requireNonNull(guild, "Guild cannot be null");
-
         return GuildDTO.builder()
                 .id(guild.getId())
                 .name(guild.getName())
