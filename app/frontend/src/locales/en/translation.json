@@ -1,4 +1,7 @@
 {
+  "general": {
+    "success": "Success"
+  },
   "labels": {
     "navigation": {
       "navigation-list": {
